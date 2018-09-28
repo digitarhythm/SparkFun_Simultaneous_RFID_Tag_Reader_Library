@@ -11,7 +11,7 @@
   work (and a ton of fun!) to put these libraries together and we want to keep making neat stuff!
   https://opensource.org/licenses/MIT
 
-  The above copyright notice and this permission notice shall be included in all copies or 
+  The above copyright notice and this permission notice shall be included in all copies or
   substantial portions of the Software.
 */
 
@@ -56,8 +56,8 @@
 #define RESPONSE_IS_TAGFOUND            8
 #define RESPONSE_IS_NOTAGFOUND          9
 #define RESPONSE_IS_UNKNOWN             10
-#define RESPONSE_SUCCESS  			    11
-#define RESPONSE_FAIL          			12
+#define RESPONSE_SUCCESS                11
+#define RESPONSE_FAIL                   12
 
 //Define the allowed regions - these set the internal freq of the module
 #define REGION_INDIA        0x04
@@ -70,15 +70,14 @@
 #define REGION_NORTHAMERICA 0x0D
 #define REGION_OPEN         0xFF
 
-class RFID
-{
+class RFID {
   public:
     RFID(void);
 
-    bool begin(Stream &serialPort = Serial); //If user doesn't specify then Serial will be used
-	
-	void enableDebugging(Stream &debugPort = Serial); //Turn on command sending and response printing. If user doesn't specify then Serial will be used
-	void disableDebugging(void);
+    void begin(Stream &serialPort = Serial); //If user doesn't specify then Serial will be used
+
+    void enableDebugging(Stream &debugPort = Serial); //Turn on command sending and response printing. If user doesn't specify then Serial will be used
+    void disableDebugging(void);
 
     void setBaud(long baudRate);
     void getVersion(void);
@@ -89,7 +88,7 @@ class RFID
     void setRegion(uint8_t region);
     void setAntennaPort();
     void setAntennaSearchList();
-	void setTagProtocol(uint8_t protocol = 0x05);
+    void setTagProtocol(uint8_t protocol = 0x05);
 
     void startReading(void); //Disable filtering and start reading continuously
     void stopReading(void); //Stops continuous read. Give 1000 to 2000ms for the module to stop reading.
@@ -103,32 +102,32 @@ class RFID
     void getProtocolParameters(uint8_t option1, uint8_t option2);
 
     uint8_t parseResponse(void);
-    
+
     uint8_t getTagEPCBytes(void); //Pull number of EPC data bytes from record response.
     uint8_t getTagDataBytes(void); //Pull number of tag data bytes from record response. Often zero.
     uint16_t getTagTimestamp(void); //Pull timestamp value from full record response
     uint32_t getTagFreq(void); //Pull Freq value from full record response
     int8_t getTagRSSI(void); //Pull RSSI value from full record response
-    
+
     bool check(void);
 
     uint8_t readTagEPC(uint8_t *epc, uint8_t &epcLength, uint16_t timeOut = COMMAND_TIME_OUT);
     uint8_t writeTagEPC(char *newID, uint8_t newIDLength, uint16_t timeOut = COMMAND_TIME_OUT);
 
     uint8_t readData(uint8_t bank, uint32_t address, uint8_t *dataRead, uint8_t &dataLengthRead, uint16_t timeOut = COMMAND_TIME_OUT);
-	uint8_t writeData(uint8_t bank, uint32_t address, uint8_t *dataToRecord, uint8_t dataLengthToRecord, uint16_t timeOut = COMMAND_TIME_OUT);
+    uint8_t writeData(uint8_t bank, uint32_t address, uint8_t *dataToRecord, uint8_t dataLengthToRecord, uint16_t timeOut = COMMAND_TIME_OUT);
 
     uint8_t readUserData(uint8_t *userData, uint8_t &userDataLength, uint16_t timeOut = COMMAND_TIME_OUT);
     uint8_t writeUserData(uint8_t *userData, uint8_t userDataLength, uint16_t timeOut = COMMAND_TIME_OUT);
 
-	uint8_t readKillPW(uint8_t *password, uint8_t &passwordLength, uint16_t timeOut = COMMAND_TIME_OUT);
-	uint8_t writeKillPW(uint8_t *password, uint8_t passwordLength, uint16_t timeOut = COMMAND_TIME_OUT);
+    uint8_t readKillPW(uint8_t *password, uint8_t &passwordLength, uint16_t timeOut = COMMAND_TIME_OUT);
+    uint8_t writeKillPW(uint8_t *password, uint8_t passwordLength, uint16_t timeOut = COMMAND_TIME_OUT);
 
-	uint8_t readAccessPW(uint8_t *password, uint8_t &passwordLength, uint16_t timeOut = COMMAND_TIME_OUT);
-	uint8_t writeAccessPW(uint8_t *password, uint8_t passwordLength, uint16_t timeOut = COMMAND_TIME_OUT);
+    uint8_t readAccessPW(uint8_t *password, uint8_t &passwordLength, uint16_t timeOut = COMMAND_TIME_OUT);
+    uint8_t writeAccessPW(uint8_t *password, uint8_t passwordLength, uint16_t timeOut = COMMAND_TIME_OUT);
 
-	uint8_t readTID(uint8_t *tid, uint8_t &tidLength, uint16_t timeOut = COMMAND_TIME_OUT);
-	uint8_t readUID(uint8_t *tid, uint8_t &tidLength, uint16_t timeOut = COMMAND_TIME_OUT);
+    uint8_t readTID(uint8_t *tid, uint8_t &tidLength, uint16_t timeOut = COMMAND_TIME_OUT);
+    uint8_t readUID(uint8_t *tid, uint8_t &tidLength, uint16_t timeOut = COMMAND_TIME_OUT);
 
     uint8_t killTag(uint8_t *password, uint8_t passwordLength, uint16_t timeOut = COMMAND_TIME_OUT);
 
@@ -147,7 +146,7 @@ class RFID
     uint8_t msg[MAX_MSG_SIZE];
 
     //uint16_t tags[MAX_NUMBER_OF_TAGS][12]; //Assumes EPC won't be longer than 12 bytes
-    //uint16_t tagRSSI[MAX_NUMBER_OF_TAGS];  
+    //uint16_t tagRSSI[MAX_NUMBER_OF_TAGS];
     //uint16_t uniqueTags = 0;
 
   private:
@@ -157,6 +156,6 @@ class RFID
     Stream *_debugSerial; //The stream to send debug messages to if enabled
 
     uint8_t _head = 0; //Tracks the length of the incoming message as we poll the software serial
-    
+
     boolean _printDebug = false; //Flag to print the serial commands we are sending to the Serial port for debug
 };
